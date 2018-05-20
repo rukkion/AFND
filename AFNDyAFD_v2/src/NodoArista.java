@@ -1,0 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Usuario
+ */
+public class NodoArista {
+NodoGrafo arista;
+NodoArista prev,next;
+Object value;
+
+public void setValue(String value) {
+    this.value = value;
+}
+
+public Object getValue() {
+    return value;
+}
+    
+    
+public NodoArista(NodoGrafo dirBrother){
+    arista= dirBrother;
+    prev=next=null;
+}
+}

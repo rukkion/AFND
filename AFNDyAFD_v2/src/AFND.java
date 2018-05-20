@@ -1,4 +1,8 @@
 
+import com.sun.glass.events.KeyEvent;
+import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -19,6 +23,7 @@ public class AFND extends javax.swing.JFrame {
      */
     public AFND() {
         initComponents();
+        this.setLocationRelativeTo(this);
     }
     
     String alfabeto[];
@@ -78,6 +83,12 @@ public class AFND extends javax.swing.JFrame {
         jLabel3.setText("Estados finales (f): ");
 
         jLabel4.setText("Alfabeto (Σ):");
+
+        txtEstadoInicial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEstadoInicialKeyReleased(evt);
+            }
+        });
 
         txtAlfabeto.setColumns(20);
         txtAlfabeto.setLineWrap(true);
@@ -161,6 +172,20 @@ public class AFND extends javax.swing.JFrame {
         jLabel5.setText("Cadena:");
 
         menuInstrucciones.setText("Instrucciones");
+        menuInstrucciones.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                menuInstruccionesMenuSelected(evt);
+            }
+        });
+        menuInstrucciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuInstruccionesActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(menuInstrucciones);
 
         setJMenuBar(jMenuBar1);
@@ -226,6 +251,33 @@ public class AFND extends javax.swing.JFrame {
        modelTransiciones=(DefaultTableModel)tblTransiciones.getModel();
         limpiarCampos();
     }//GEN-LAST:event_formWindowOpened
+
+    private void txtEstadoInicialKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstadoInicialKeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_COMMA){
+            Toolkit.getDefaultToolkit().beep();
+            showMessageDialog(this,"Solo se puede puede poner un estado como inicial.","Atención",JOptionPane.WARNING_MESSAGE);
+            txtEstadoInicial.setText(txtEstadoInicial.getText().substring(0,txtEstadoInicial.getText().length()-1));
+        }
+    }//GEN-LAST:event_txtEstadoInicialKeyReleased
+
+    private void menuInstruccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInstruccionesActionPerformed
+        
+    }//GEN-LAST:event_menuInstruccionesActionPerformed
+
+    private void menuInstruccionesMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuInstruccionesMenuSelected
+       String mensaje="Estas son las instrucciones para poder generar correctamente un AFND (Autómata Finito"
+                + "No Determinista), y posteriormente poder validar cadenas validad para ese AFND generado.\n\n"
+                + "Estado(s): Todos los estados del AFND sin importar si son estados finales o no.\n"
+                + "Estado inicial: Solo se puede poner un estado valido de los ingresados solamente.\n"
+                + "Estados finales: Todos los estados donde puede terminar alguna cadena valida.\n"
+                + "Alfabeto: Cualquier tipo de carácter. Para funcionar correctamente se debe de poner un carácter solamente.\n\n"
+                + "Tabla de Transiciones: En cada campo de la tabla se debe de poner el nombre idéntico a algún estado ingresado,"
+                + " ya que si no es así no se podrá validar cadenas correctamente.\n"
+               + "Para poder insertar una transción solo se debe"
+                + " de dar doble click al campo en la tabla generada y presionar Enter al finalizar.";
+        showMessageDialog(this,mensaje,"Instrucciones",JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("PENE");
+    }//GEN-LAST:event_menuInstruccionesMenuSelected
 
     private void limpiarCampos(){
         txtCadena.setEnabled(false);
